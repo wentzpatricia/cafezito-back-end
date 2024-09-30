@@ -30,18 +30,18 @@ export class UserController {
   // GET http://localhost:3000/user/:id
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.viewUser(+id);
+    return this.userService.viewUser(id);
   }
 
   //PATCH http://localhost:3000/user/:id
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.updateUser(+id, updateUserDto);
+    return this.userService.updateUser(id, updateUserDto);
   }
 
   // DELETE http://localhost:3000/user/:id
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userService.removeUser(+id);
+    return this.userService.removeUser(id);
   }
 }

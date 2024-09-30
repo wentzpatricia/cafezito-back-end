@@ -20,7 +20,7 @@ export class UserService {
     createUserDto.password = hashPassword;
 
     const user = new User();
-    
+
     user.email = createUserDto.email;
     user.password = createUserDto.password;
 
@@ -42,11 +42,11 @@ export class UserService {
     return this.userRepository.findOneBy({ email: username });
   }
 
-  viewUser(id: number): Promise<User> {
+  viewUser(id: string): Promise<User> {
     return this.userRepository.findOneBy({ id });
   }
 
-  updateUser(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+  updateUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     const user: User = new User();
     user.email = updateUserDto.email;
     user.password = updateUserDto.password;
@@ -54,7 +54,7 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
-  removeUser(id: number): Promise<{ affected?: number }> {
+  removeUser(id: string): Promise<{ affected?: number }> {
     return this.userRepository.delete(id);
   }
 }
