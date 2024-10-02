@@ -18,16 +18,15 @@ import * as bcrypt from 'bcrypt';
     async validateUser(username: string, password: string): Promise<any> {
         const user = await this.usersService.findOneByEmail(username);
         if (!user) {
-          throw new UnauthorizedException('Invalid e-mail or password');
+          throw new UnauthorizedException({message:'E-mail ou senha inválidos.'});
         }
 
         const match = await bcrypt.compare(password, user.password);
 
         if (match) {
-            console.log('Credentials are correct!')
             return await this.gerarToken(user);
         }
-        throw new UnauthorizedException('Invalid e-mail or password');
+        throw new UnauthorizedException({message:'E-mail ou senha inválidos.'});
       }
   
     async gerarToken(payload: User) {

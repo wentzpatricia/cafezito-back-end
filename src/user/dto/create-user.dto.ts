@@ -5,12 +5,12 @@ const passwordRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$
   export class CreateUserDto {
   
     @IsNotEmpty()
-    @IsEmail({ require_tld: true }, { message: 'Please provide valid Email.' })
+    @IsEmail({ require_tld: true }, { message: 'Por favor, insira um e-mail válido.' })
     email: string;
   
     @IsNotEmpty()
     @Matches(passwordRegEx, {
-      message: `Password must contain Minimum 8 and maximum 20 characters, at least one uppercase letter, one lowercase letter, one number and one special character`,
+      message: `A senha deve conter entre 8 e 20 caracteres, incluindo pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial.`,
     })
     password: string;
 
