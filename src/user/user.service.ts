@@ -1,60 +1,64 @@
-import { ConflictException, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Injectable, ConflictException } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
+  constructor(private readonly prisma: PrismaService) {}
 
-  constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
-  ) {}
-
-  async createUser(createUserDto: CreateUserDto): Promise<User> {
+  async createUser(createUserDto: CreateUserDto) {
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(createUserDto.password, salt);
 
-    createUserDto.password = hashPassword;
-
-    const user = new User();
-
-    user.email = createUserDto.email;
-    user.password = createUserDto.password;
-
     try {
-      return await this.userRepository.save(user);
+      return await this.prisma.user.create({
+        data: {
+          email: createUserDto.email,
+          password: hashPassword,
+        },
+      });
     } catch (error) {
-      if (error.code === '23505') {
-        throw new ConflictException({message:'E-mail já cadastrado'});
+      if (error.code === 'P2002') {
+        throw new ConflictException({ message: 'E-mail já cadastrado' });
       }
       throw error;
     }
   }
-  
-  findAllUser(): Promise<User[]> {
-    return this.userRepository.find();
+
+  async findAllUser() {
+    return this.prisma.user.findMany();
   }
 
-  findOneByEmail(username: string) {
-    return this.userRepository.findOneBy({ email: username });
+  async findOneByEmail(email: string) {
+    return this.prisma.user.findUnique({
+      where: { email },
+    });
   }
 
-  viewUser(id: string): Promise<User> {
-    return this.userRepository.findOneBy({ id });
+  async viewUser(id: string) {
+    return this.prisma.user.findUnique({
+      where: { id },
+    });
   }
 
-  updateUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    const user: User = new User();
-    user.email = updateUserDto.email;
-    user.password = updateUserDto.password;
-    user.id = id;
-    return this.userRepository.save(user);
+  async updateUser(id: string, updateUserDto: UpdateUserDto) {
+    const salt = await bcrypt.genSalt();
+    const hashPassword = await bcrypt.hash(updateUserDto.password, salt);
+
+    return this.prisma.user.update({
+      where: { id },
+      data: {
+        email: updateUserDto.email,
+        password: hashPassword,
+      },
+    });
   }
 
-  removeUser(id: string): Promise<{ affected?: number }> {
-    return this.userRepository.delete(id);
+  async removeUser(id: string) {
+    return this.prisma.user.delete({
+      where: { id },
+    });
   }
 }
