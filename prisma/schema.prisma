@@ -15,3 +15,15 @@ model User {
   email    String  @unique
   password String
 }
+
+model CoffeShop {
+  id_cafeteria String @id @default(uuid())
+  latitude     Float
+  longitude    Float
+  name         String
+  address      String
+  environment  String
+  cost         Float
+  coffees      String
+  rating       String
+}

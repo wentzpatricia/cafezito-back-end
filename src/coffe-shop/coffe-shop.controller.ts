@@ -8,6 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { CoffeShopService } from './coffe-shop.service';
+import { CreateCoffeShopDto } from './dto/create-coffe-shop.dto';
 
 @Controller('coffe-shop')
 export class CoffeShopController {
@@ -15,8 +16,8 @@ export class CoffeShopController {
 
   //POST http://localhost:3000/coffeShop
   @Post()
-  create(@Body() createCoffeShopDto: any) {
-    return this.coffeShopService.createCoffeShop(createCoffeShopDto);
+  create(@Body() createCoffeShopDto: CreateCoffeShopDto) {
+    return this.coffeShopService.createCoffeShop({ createCoffeShopDto });
   }
 
   // GET http://localhost:3000/coffeShop
