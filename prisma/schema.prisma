@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,22 +7,89 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
-        
 
 model User {
-  id       String  @id @default(uuid())
-  email    String  @unique
+  id       String   @id @default(uuid())
+  email    String   @unique
   password String
+  Rating   Rating[]
 }
 
-model CoffeShop {
-  id_cafeteria String @id @default(uuid())
-  latitude     Float
-  longitude    Float
-  name         String
-  address      String
-  environment  String
-  cost         Float
-  coffees      String
-  rating       String
+model CoffeeShop {
+  id                 String               @id @default(uuid())
+  latitude           Float
+  longitude          Float
+  name               String
+  address            String
+  cost               Cost
+  urlImage           String
+  product            ProductTag[]
+  environment        Environment[]
+  rating             Rating[]
+  voucherPromotional VoucherPromotional[]
+  SocialMedias       SocialMedias[]
+}
+
+model Rating {
+  id           String     @id @default(uuid())
+  stars        Int
+  feedback     String?
+  date         DateTime   @default(now())
+  userId       String
+  coffeeShopId String
+  user         User       @relation(fields: [userId], references: [id])
+  coffeeShop   CoffeeShop @relation(fields: [coffeeShopId], references: [id])
+}
+
+model VoucherPromotional {
+  id           String     @id @default(uuid())
+  fidelidade   Int
+  voucher      String?
+  redeemed     Boolean
+  coffeeShopId String
+  coffeeShop   CoffeeShop @relation(fields: [coffeeShopId], references: [id])
+}
+
+model Environment {
+  id           String         @id @default(uuid())
+  description  String
+  socialMedias SocialMedias[]
+  openingHours String
+  coffeTypes   CoffeTypes[]
+  urlImages    String[]
+  coffeeShopId String
+  coffeeShop   CoffeeShop     @relation(fields: [coffeeShopId], references: [id])
+}
+
+model SocialMedias {
+  id            String       @id @default(uuid())
+  name          String
+  url           String
+  coffeeShopId  String
+  coffeeShop    CoffeeShop   @relation(fields: [coffeeShopId], references: [id])
+  Environment   Environment? @relation(fields: [environmentId], references: [id])
+  environmentId String?
+}
+
+enum CoffeTypes {
+  ESPECIAIS
+  TRADICIONAIS
+  CHAS
+}
+
+enum Cost {
+  BAIXO
+  MEDIO
+  ALTO
+}
+
+enum ProductTag {
+  VEGANO
+  VEGETARIANO
+  PETFRIENDLY
+  COWORKING
+  WIFI
+  SEM_GLUTEN
+  MENOR_PRECO
+  MAIOR_PRECO
 }
