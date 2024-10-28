@@ -1,5 +1,5 @@
-import { Cost } from '@prisma/client';
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { Cost, ProductTag } from '@prisma/client';
+import { IsArray, IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateCoffeeShopDto {
   @IsNotEmpty()
@@ -21,6 +21,11 @@ export class CreateCoffeeShopDto {
   @IsNotEmpty()
   @IsEnum(Cost, { message: 'Custo deve ser um dos valores permitidos:  BAIXO, MEDIO, ALTO'})
   cost: Cost;
+
+  @IsNotEmpty()
+  @IsArray()
+  @IsEnum(ProductTag, { each: true, message: 'Valor para produto inválido' })
+  product: ProductTag[];
 
   @IsNotEmpty()
   urlImage: string;

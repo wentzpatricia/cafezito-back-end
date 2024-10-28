@@ -17,7 +17,8 @@ export class CoffeeShopService {
       name,
       address,
       cost,
-      urlImage
+      urlImage,
+      product
     } = createCoffeeShopDto;
 
     return await this.prisma.coffeeShop.create({
@@ -27,16 +28,19 @@ export class CoffeeShopService {
         name,
         address,
         cost,
-        urlImage
+        urlImage,
+        product
       },
     });
   }
 
-  findAllCoffeShop() {}
+  findAllCoffeeShop() {
+    return this.prisma.coffeeShop.findMany();
+  }
 
-  findCoffeShopById(id: string) {}
+  findCoffeeShopById(id: string) {}
 
-  updateCoffeShop(id: string, coffeeShop: any) {}
+  updateCoffeeShop(id: string, coffeeShop: any) {}
 
-  removeCoffeShop(id: string) {}
+  removeCoffeeShop(id: string) {}
 }

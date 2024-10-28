@@ -4,35 +4,35 @@ import { CreateCoffeeShopDto } from './dto/create-coffee-shop.dto';
 
 @Controller('coffee-shop')
 export class CoffeeShopController {
-  constructor(private readonly coffeShopService: CoffeeShopService) {}
+  constructor(private readonly coffeeShopService: CoffeeShopService) {}
 
-  //POST http://localhost:3000/coffeShop
+  //POST http://localhost:3000/coffee-shop
   @Post()
   create(@Body() createCoffeeShopDto: CreateCoffeeShopDto) {
-    return this.coffeShopService.createCoffeeShop({ createCoffeeShopDto });
+    return this.coffeeShopService.createCoffeeShop({ createCoffeeShopDto });
   }
 
-  // GET http://localhost:3000/coffeShop
+  // GET http://localhost:3000/coffee-shop
   @Get()
   findAll() {
-    return this.coffeShopService.findAllCoffeShop();
+    return this.coffeeShopService.findAllCoffeeShop();
   }
 
-  // GET http://localhost:3000/coffeShop/:id
+  // GET http://localhost:3000/coffee-shop/:id
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.coffeShopService.findCoffeShopById(id);
+    return this.coffeeShopService.findCoffeeShopById(id);
   }
 
-  //PATCH http://localhost:3000/coffeShop/:id
+  //PATCH http://localhost:3000/coffee-shop/:id
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatecoffeShopDto: any) {
-    return this.coffeShopService.updateCoffeShop(id, updatecoffeShopDto);
+    return this.coffeeShopService.updateCoffeeShop(id, updatecoffeShopDto);
   }
 
-  // DELETE http://localhost:3000/coffeShop/:id
+  // DELETE http://localhost:3000/coffee-shop/:id
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.coffeShopService.removeCoffeShop(id);
+    return this.coffeeShopService.removeCoffeeShop(id);
   }
 }
