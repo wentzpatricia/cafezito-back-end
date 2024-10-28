@@ -1,23 +1,15 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
-import { CoffeShopService } from './coffe-shop.service';
-import { CreateCoffeShopDto } from './dto/create-coffe-shop.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { CoffeeShopService } from './coffee-shop.service';
+import { CreateCoffeeShopDto } from './dto/create-coffee-shop.dto';
 
-@Controller('coffe-shop')
-export class CoffeShopController {
-  constructor(private readonly coffeShopService: CoffeShopService) {}
+@Controller('coffee-shop')
+export class CoffeeShopController {
+  constructor(private readonly coffeShopService: CoffeeShopService) {}
 
   //POST http://localhost:3000/coffeShop
   @Post()
-  create(@Body() createCoffeShopDto: CreateCoffeShopDto) {
-    return this.coffeShopService.createCoffeShop({ createCoffeShopDto });
+  create(@Body() createCoffeeShopDto: CreateCoffeeShopDto) {
+    return this.coffeShopService.createCoffeeShop({ createCoffeeShopDto });
   }
 
   // GET http://localhost:3000/coffeShop

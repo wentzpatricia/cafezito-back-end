@@ -43,7 +43,6 @@ model Rating {
 
 model VoucherPromotional {
   id           String     @id @default(uuid())
-  fidelidade   Int
   voucher      String?
   redeemed     Boolean
   coffeeShopId String

@@ -1,37 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateCoffeShopDto } from './dto/create-coffe-shop.dto';
+import { CreateCoffeeShopDto } from './dto/create-coffee-shop.dto';
 
 @Injectable()
-export class CoffeShopService {
+export class CoffeeShopService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createCoffeShop({
-    createCoffeShopDto,
+  async createCoffeeShop({
+    createCoffeeShopDto,
   }: {
-    createCoffeShopDto: CreateCoffeShopDto;
+    createCoffeeShopDto: CreateCoffeeShopDto;
   }) {
     const {
       latitude,
       longitude,
       name,
       address,
-      environment,
       cost,
-      coffees,
-      rating,
-    } = createCoffeShopDto;
+      urlImage
+    } = createCoffeeShopDto;
 
-    return await this.prisma.coffeShop.create({
+    return await this.prisma.coffeeShop.create({
       data: {
         latitude,
         longitude,
         name,
         address,
-        environment,
         cost,
-        coffees,
-        rating,
+        urlImage
       },
     });
   }
@@ -40,7 +36,7 @@ export class CoffeShopService {
 
   findCoffeShopById(id: string) {}
 
-  updateCoffeShop(id: string, coffeShop: any) {}
+  updateCoffeShop(id: string, coffeeShop: any) {}
 
   removeCoffeShop(id: string) {}
 }
