@@ -38,9 +38,31 @@ export class CoffeeShopService {
     return this.prisma.coffeeShop.findMany();
   }
 
-  findCoffeeShopById(id: string) {}
+  findCoffeeShopById(id: string) {
+    return this.prisma.coffeeShop.findUnique({
+      where: { id },
+    });
+  }
 
-  updateCoffeeShop(id: string, coffeeShop: any) {}
+  async updateCoffeeShop(id: string, coffeeShop: any) {
+    
+    return this.prisma.coffeeShop.update({
+      where: { id },
+      data: {
+        latitude: coffeeShop.latitude,
+        longitude: coffeeShop.longitude,
+        address: coffeeShop.address,
+        cost: coffeeShop.cost,
+        urlImage: coffeeShop.urlImage,
+        product: coffeeShop.product,
+      },
+    });
+  }
 
-  removeCoffeeShop(id: string) {}
+  async removeCoffeeShop(id: string) {
+    return this.prisma.coffeeShop.delete({
+      where: { id },
+    });
+  }
+  
 }
