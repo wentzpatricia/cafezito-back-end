@@ -32,6 +32,12 @@
 $ pnpm install
 ```
 
+## Prisma setup
+
+```bash
+$ npx prisma generate
+```
+
 ## Compile and run the project
 
 ```bash
