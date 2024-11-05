@@ -1,13 +1,17 @@
+import { CreateCoffeeShopEnvironmentDto } from './dto/create-coffee-shop-environment.dto';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateCoffeeShopEnvironmentDto } from './dto/create-coffee-shop-environment.dto';
 
 @Injectable()
 export class CoffeeShopEnvironmentService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createEnvironment(createEnvironmentDto: CreateCoffeeShopEnvironmentDto, coffeeShopId: string) {
-    const { description, urlImages, openingHours, coffeTypes } = createEnvironmentDto;
+  async createEnvironment(
+    createEnvironmentDto: CreateCoffeeShopEnvironmentDto,
+    coffeeShopId: string,
+  ) {
+    const { description, urlImages, openingHours, coffeTypes } =
+      createEnvironmentDto;
 
     return this.prisma.environment.create({
       data: {
@@ -20,7 +24,11 @@ export class CoffeeShopEnvironmentService {
     });
   }
 
-  async updateEnvironment(id: string, updateEnvironmentDto: any, coffeeShopId: string) {
+  async updateEnvironment(
+    id: string,
+    updateEnvironmentDto: any,
+    coffeeShopId: string,
+  ) {
     return this.prisma.environment.update({
       where: { id, coffeeShopId },
       data: updateEnvironmentDto,

@@ -1,6 +1,6 @@
+import { CreateCoffeeShopDto } from './dto/create-coffee-shop.dto';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateCoffeeShopDto } from './dto/create-coffee-shop.dto';
 
 @Injectable()
 export class CoffeeShopService {
@@ -28,12 +28,43 @@ export class CoffeeShopService {
   }
 
   findAllCoffeeShop() {
-    return this.prisma.coffeeShop.findMany();
+    return this.prisma.coffeeShop.findMany({
+      select: {
+        id: true,
+        name: true,
+        address: true,
+        rating: true,
+        urlImage: true,
+        product: true,
+      },
+    });
   }
 
   findCoffeeShopById(id: string) {
     return this.prisma.coffeeShop.findUnique({
       where: { id },
+      select: {
+        id: true,
+        name: true,
+        address: true,
+        rating: true,
+        product: true,
+        environment: {
+          select: {
+            id: true,
+            description: true,
+            openingHours: true,
+            coffeTypes: true,
+            urlImages: true,
+            socialMedias: {
+              select: {
+                name: true,
+                url: true,
+              },
+            },
+          },
+        },
+      },
     });
   }
 

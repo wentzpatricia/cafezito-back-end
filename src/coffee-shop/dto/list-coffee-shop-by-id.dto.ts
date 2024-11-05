@@ -1,5 +1,5 @@
-import { IsArray, IsEnum, IsOptional, IsString } from 'class-validator';
 import { CoffeTypes, Environment, ProductTag } from '@prisma/client';
+import { IsArray, IsEnum, IsOptional, IsString } from 'class-validator';
 
 export class ListCoffeeShopByIdDto {
   @IsString()

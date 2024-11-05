@@ -1,12 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { ApiBody, ApiResponse } from '@nestjs/swagger';
+import { Controller, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { CoffeeShopEnvironmentService } from './coffee-shop-environment.service';
 import { CreateCoffeeShopEnvironmentDto } from './dto/create-coffee-shop-environment.dto';
 
@@ -17,6 +10,9 @@ export class CoffeeShopEnvironmentController {
   ) {}
 
   @Post()
+  @ApiBody({ type: CreateCoffeeShopEnvironmentDto })
+  @ApiResponse({ status: 201 })
+  @ApiResponse({ status: 400 })
   create(
     @Param('coffeeShopId') coffeeShopId: string,
     @Body() createCoffeeShopEnvironmentDto: CreateCoffeeShopEnvironmentDto,
