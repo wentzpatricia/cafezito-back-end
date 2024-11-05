@@ -1,15 +1,16 @@
 import { Module } from '@nestjs/common';
 
 import { CoffeeShopRatingService } from './coffee-shop-rating.service';
+import { JwtModule } from '@nestjs/jwt';
 
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateCoffeeShopRatingDto } from './dto/create-coffeee-shop-rating.dto';
+import { CoffeeShopRatingController } from './coffee-shop-rating.controller';
 
 @Module({
-    imports: [PrismaModule],
-    controllers: [CreateCoffeeShopRatingDto],
-    providers: [CoffeeShopRatingService, PrismaService],
-    exports: [CoffeeShopRatingService],
+  imports: [JwtModule, PrismaModule],
+  controllers: [CoffeeShopRatingController],
+  providers: [CoffeeShopRatingService, PrismaService],
+  exports: [CoffeeShopRatingService],
 })
 export class CofeeShopRatingModule {}

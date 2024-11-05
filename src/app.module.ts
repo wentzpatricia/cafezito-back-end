@@ -13,7 +13,7 @@ import { UserModule } from './user/user.module';
     AuthModule,
     CoffeeShopModule,
     CoffeeShopEnvironmentModule,
-    //CofeeShopRatingModule,
+    CofeeShopRatingModule,
     PrismaModule,
     UserModule,
   ],

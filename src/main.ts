@@ -18,12 +18,13 @@ async function bootstrap() {
     .setTitle('Cafezito API')
     .setDescription('API para o projeto Cafezito')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  app.enableCors();
+  app.enableCors({ exposedHeaders: ['Authorization'] });
 
   await app.listen(3000);
 }

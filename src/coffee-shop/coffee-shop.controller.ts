@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 
 import { ApiBody, ApiOkResponse, ApiResponse } from '@nestjs/swagger';
@@ -16,8 +17,10 @@ import { CoffeeShopService } from './coffee-shop.service';
 import { CreateCoffeeShopDto } from './dto/create-coffee-shop.dto';
 import { ListCoffeeShopDto } from './dto/list-coffee-shop.dto';
 import { ListCoffeeShopByIdDto } from './dto/list-coffee-shop-by-id.dto';
+import { JwtAuthGuard } from 'src/guards/auth.guard';
 
 @Controller('coffee-shop')
+@UseGuards(JwtAuthGuard)
 export class CoffeeShopController {
   constructor(private readonly coffeeShopService: CoffeeShopService) {}
 
