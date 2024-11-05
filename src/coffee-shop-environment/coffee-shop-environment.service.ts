@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateCoffeeShopEnvironmentDto } from './dto/create-coffeee-shop-environment';
+import { CreateCoffeeShopEnvironmentDto } from './dto/create-coffee-shop-environment.dto';
 
 @Injectable()
 export class CoffeeShopEnvironmentService {

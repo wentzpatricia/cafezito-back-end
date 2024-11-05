@@ -11,15 +11,8 @@ export class CoffeeShopService {
   }: {
     createCoffeeShopDto: CreateCoffeeShopDto;
   }) {
-    const {
-      latitude,
-      longitude,
-      name,
-      address,
-      cost,
-      urlImage,
-      product
-    } = createCoffeeShopDto;
+    const { latitude, longitude, name, address, cost, urlImage, product } =
+      createCoffeeShopDto;
 
     return await this.prisma.coffeeShop.create({
       data: {
@@ -29,7 +22,7 @@ export class CoffeeShopService {
         address,
         cost,
         urlImage,
-        product
+        product,
       },
     });
   }
@@ -45,7 +38,6 @@ export class CoffeeShopService {
   }
 
   async updateCoffeeShop(id: string, coffeeShop: any) {
-    
     return this.prisma.coffeeShop.update({
       where: { id },
       data: {
@@ -64,5 +56,4 @@ export class CoffeeShopService {
       where: { id },
     });
   }
-  
 }
