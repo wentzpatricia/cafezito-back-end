@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CoffeeShopRatingService } from './coffee-shop-rating.service';
-import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { Request } from 'express';
 import { CreateCoffeeShopRatingDto } from './dto/create-coffeee-shop-rating.dto';
@@ -17,6 +17,7 @@ import { JwtAuthGuard, JwtPayload } from 'src/guards/auth.guard';
 
 @Controller('coffee-shop/:coffeeShopId/rating')
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class CoffeeShopRatingController {
   constructor(
     private readonly coffeeShopRatingService: CoffeeShopRatingService,
@@ -33,7 +34,6 @@ export class CoffeeShopRatingController {
   ) {
     const user = request.user as JwtPayload;
     const userId = user.id;
-    console.log('User ID from token:', userId);
     return this.coffeeShopRatingService.createRating(
       createCoffeeShopRatingDto,
       coffeeShopId,

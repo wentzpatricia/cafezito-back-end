@@ -35,7 +35,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       }),
     ).pipe(
       map((payload) => {
-        console.log('Payload recebido do token JWT:', payload);
         request['user'] = payload;
         return true;
       }),

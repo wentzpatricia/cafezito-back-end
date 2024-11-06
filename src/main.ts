@@ -18,7 +18,11 @@ async function bootstrap() {
     .setTitle('Cafezito API')
     .setDescription('API para o projeto Cafezito')
     .setVersion('1.0')
-    .addBearerAuth()
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'bearer',
+      in: 'header',
+    })
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

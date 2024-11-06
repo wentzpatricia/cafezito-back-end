@@ -1,9 +1,20 @@
-import { ApiBody, ApiResponse } from '@nestjs/swagger';
-import { Controller, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { ApiBearerAuth, ApiBody, ApiResponse } from '@nestjs/swagger';
+import {
+  Controller,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { CoffeeShopEnvironmentService } from './coffee-shop-environment.service';
 import { CreateCoffeeShopEnvironmentDto } from './dto/create-coffee-shop-environment.dto';
+import { JwtAuthGuard } from 'src/guards/auth.guard';
 
 @Controller('coffee-shop/:coffeeShopId/environment')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class CoffeeShopEnvironmentController {
   constructor(
     private readonly coffeeShopEnvironmentService: CoffeeShopEnvironmentService,

@@ -9,7 +9,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { ApiBody, ApiOkResponse, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOkResponse,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { plainToInstance } from 'class-transformer';
 
 import { CoffeeShopService } from './coffee-shop.service';
@@ -21,6 +26,7 @@ import { JwtAuthGuard } from 'src/guards/auth.guard';
 
 @Controller('coffee-shop')
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class CoffeeShopController {
   constructor(private readonly coffeeShopService: CoffeeShopService) {}
 
