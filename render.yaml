@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: nest-cli
+    name: nest-js
     runtime: node
     plan: free
     buildCommand: pnpm install --no-frozen-lockfile; npx prisma generate
