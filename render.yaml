@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: nest-cli
+    runtime: node
+    plan: free
+    buildCommand: pnpm install; npx prisma generate
+    startCommand: pnpm run start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
