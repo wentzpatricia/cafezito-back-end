@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: nest-js
+    runtime: node
+    plan: free
+    buildCommand: pnpm install --no-frozen-lockfile; npx prisma generate
+    startCommand: pnpm run start
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 3000
+  
