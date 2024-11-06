@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CoffeeShopRatingService } from './coffee-shop-rating.service';
-import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiResponse } from '@nestjs/swagger';
 
 import { Request } from 'express';
 import { CreateCoffeeShopRatingDto } from './dto/create-coffeee-shop-rating.dto';

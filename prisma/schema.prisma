@@ -13,6 +13,7 @@ model User {
   email    String   @unique
   password String
   Rating   Rating[]
+  Vouchers VoucherPromotional[]
 }
 
 model CoffeeShop {
@@ -42,11 +43,20 @@ model Rating {
 }
 
 model VoucherPromotional {
-  id           String     @id @default(uuid())
-  voucher      String?
-  redeemed     Boolean
-  coffeeShopId String
-  coffeeShop   CoffeeShop @relation(fields: [coffeeShopId], references: [id])
+  id               String      @id @default(uuid())
+  voucher          String     
+  redeemed         Boolean     @default(false)
+  availableQuantity Int        
+  validFrom        DateTime?   
+  validUntil       DateTime?  
+  redeemedAt       DateTime?  
+  redemptionCode   String?   
+  coffeeShopId     String
+  coffeeShop       CoffeeShop  @relation(fields: [coffeeShopId], references: [id])
+  userId           String? 
+  user             User?      @relation(fields: [userId], references: [id])
+
+  @@unique([voucher, userId])
 }
 
 model Environment {

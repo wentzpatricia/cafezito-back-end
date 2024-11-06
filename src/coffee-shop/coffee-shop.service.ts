@@ -64,6 +64,20 @@ export class CoffeeShopService {
             },
           },
         },
+        voucherPromotional: {
+          select: {
+            id: true,
+            voucher: true,
+            redeemed: true,
+            availableQuantity: true,
+            validFrom: true,
+            validUntil: true,
+            redeemedAt: true,
+            redemptionCode: true,
+            coffeeShopId: true,
+            userId: true,
+          },
+        },
       },
     });
   }
