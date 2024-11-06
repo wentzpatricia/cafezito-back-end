@@ -3,7 +3,7 @@ services:
     name: nest-cli
     runtime: node
     plan: free
-    buildCommand: pnpm install; npx prisma generate
+    buildCommand: pnpm install --frozen-lockfile; npx prisma generate
     startCommand: pnpm run start
     autoDeploy: true
     envVars:
