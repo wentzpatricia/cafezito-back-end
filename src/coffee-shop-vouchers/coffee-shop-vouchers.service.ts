@@ -8,6 +8,9 @@ import { UpdateCoffeeShopVouchersDto } from './dto/update-cofee-shop-vouchers.dt
 export class CoffeeShopVoucherService {
   constructor(private readonly prisma: PrismaService) {}
 
+  //TODO um usuário pode resgatar o mesmo voucher uma única vez
+  //mas o voucher pode ter N usuários
+
   async createVoucher(
     createVoucherDto: CreateCoffeeShopVouchersDto,
     coffeeShopId: string,
@@ -32,6 +35,10 @@ export class CoffeeShopVoucherService {
       },
     });
   }
+
+  //TODO quando um voucher é resgatado realizar a subtração de vouchers disponíveis
+  //talvez ter o updateVoucher para alterar infos
+  // e outro serviço responsável só pelo resgate dos vouchers
 
   async updateVoucher(
     id: string,
