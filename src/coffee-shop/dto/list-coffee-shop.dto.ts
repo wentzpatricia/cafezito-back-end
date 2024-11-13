@@ -1,5 +1,6 @@
 import { IsString, IsArray, IsEnum, IsOptional } from 'class-validator';
 import { Rating, ProductTag } from '@prisma/client';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class ListCoffeeShopDto {
   @IsString()
@@ -19,5 +20,6 @@ export class ListCoffeeShopDto {
 
   @IsArray()
   @IsEnum(ProductTag)
+  @ApiProperty({ example: [ProductTag.VEGANO, ProductTag.WIFI], isArray: true })
   product: ProductTag[];
 }

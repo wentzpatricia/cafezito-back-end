@@ -31,7 +31,9 @@ export class UserService {
   }
 
   async findAllUser() {
-    return this.prisma.user.findMany();
+    return this.prisma.user.findMany({
+      select: { id: true, email: true },
+    });
   }
 
   async findOneByEmail(email: string) {
@@ -43,6 +45,10 @@ export class UserService {
   async viewUser(id: string) {
     return this.prisma.user.findUnique({
       where: { id },
+      select: {
+        id: true,
+        email: true,
+      },
     });
   }
 

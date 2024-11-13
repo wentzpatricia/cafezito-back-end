@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 
 import {
@@ -23,6 +24,7 @@ import { CreateCoffeeShopDto } from './dto/create-coffee-shop.dto';
 import { ListCoffeeShopDto } from './dto/list-coffee-shop.dto';
 import { ListCoffeeShopByIdDto } from './dto/list-coffee-shop-by-id.dto';
 import { JwtAuthGuard } from 'src/guards/auth.guard';
+import { ProductTag } from '@prisma/client';
 
 @Controller('coffee-shop')
 @UseGuards(JwtAuthGuard)
@@ -43,8 +45,8 @@ export class CoffeeShopController {
     description: 'Lista de cafeterias encontradas',
     type: [ListCoffeeShopDto],
   })
-  async findAll() {
-    const coffeeShops = await this.coffeeShopService.findAllCoffeeShop();
+  async findAll(@Query('tags') tags?: ProductTag[]) {
+    const coffeeShops = await this.coffeeShopService.findAllCoffeeShop(tags);
     return plainToInstance(ListCoffeeShopDto, coffeeShops);
   }
 

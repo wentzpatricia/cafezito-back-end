@@ -1,5 +1,6 @@
 import { CreateCoffeeShopDto } from './dto/create-coffee-shop.dto';
 import { Injectable } from '@nestjs/common';
+import { ProductTag } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -27,8 +28,14 @@ export class CoffeeShopService {
     });
   }
 
-  findAllCoffeeShop() {
-    return this.prisma.coffeeShop.findMany({
+  async findAllCoffeeShop(tags?: ProductTag | ProductTag[]) {
+    const tagsArray = Array.isArray(tags) ? tags : tags ? [tags] : [];
+
+    const filter =
+      tagsArray.length > 0 ? { product: { hasSome: tagsArray } } : {};
+
+    const coffeeShops = await this.prisma.coffeeShop.findMany({
+      where: filter,
       select: {
         id: true,
         name: true,
@@ -38,10 +45,28 @@ export class CoffeeShopService {
         product: true,
       },
     });
+
+    const coffeeShopsWithRatings = await Promise.all(
+      coffeeShops.map(async (shop) => {
+        const averageRating = await this.prisma.rating.aggregate({
+          where: { coffeeShopId: shop.id },
+          _avg: {
+            stars: true,
+          },
+        });
+
+        return {
+          ...shop,
+          averageRating: averageRating._avg.stars || 0,
+        };
+      }),
+    );
+
+    return coffeeShopsWithRatings;
   }
 
-  findCoffeeShopById(id: string) {
-    return this.prisma.coffeeShop.findUnique({
+  async findCoffeeShopById(id: string) {
+    const coffeeShop = await this.prisma.coffeeShop.findUnique({
       where: { id },
       select: {
         id: true,
@@ -80,6 +105,18 @@ export class CoffeeShopService {
         },
       },
     });
+
+    const averageRating = await this.prisma.rating.aggregate({
+      where: { coffeeShopId: id },
+      _avg: {
+        stars: true,
+      },
+    });
+
+    return {
+      ...coffeeShop,
+      averageRating: averageRating._avg.stars,
+    };
   }
 
   async updateCoffeeShop(id: string, coffeeShop: any) {
