@@ -27,8 +27,8 @@ export class CoffeeShopService {
     });
   }
 
-  findAllCoffeeShop() {
-    return this.prisma.coffeeShop.findMany({
+  async findAllCoffeeShop() {
+    const coffeeShops = await this.prisma.coffeeShop.findMany({
       select: {
         id: true,
         name: true,
@@ -38,10 +38,28 @@ export class CoffeeShopService {
         product: true,
       },
     });
+
+    const coffeeShopsWithRatings = await Promise.all(
+      coffeeShops.map(async (shop) => {
+        const averageRating = await this.prisma.rating.aggregate({
+          where: { coffeeShopId: shop.id },
+          _avg: {
+            stars: true,
+          },
+        });
+
+        return {
+          ...shop,
+          averageRating: averageRating._avg.stars || 0,
+        };
+      }),
+    );
+
+    return coffeeShopsWithRatings;
   }
 
-  findCoffeeShopById(id: string) {
-    return this.prisma.coffeeShop.findUnique({
+  async findCoffeeShopById(id: string) {
+    const coffeeShop = await this.prisma.coffeeShop.findUnique({
       where: { id },
       select: {
         id: true,
@@ -80,6 +98,18 @@ export class CoffeeShopService {
         },
       },
     });
+
+    const averageRating = await this.prisma.rating.aggregate({
+      where: { coffeeShopId: id },
+      _avg: {
+        stars: true,
+      },
+    });
+
+    return {
+      ...coffeeShop,
+      averageRating: averageRating._avg.stars,
+    };
   }
 
   async updateCoffeeShop(id: string, coffeeShop: any) {
