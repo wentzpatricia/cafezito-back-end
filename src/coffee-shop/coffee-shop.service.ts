@@ -1,5 +1,6 @@
 import { CreateCoffeeShopDto } from './dto/create-coffee-shop.dto';
 import { Injectable } from '@nestjs/common';
+import { ProductTag } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -27,8 +28,14 @@ export class CoffeeShopService {
     });
   }
 
-  async findAllCoffeeShop() {
+  async findAllCoffeeShop(tags?: ProductTag | ProductTag[]) {
+    const tagsArray = Array.isArray(tags) ? tags : tags ? [tags] : [];
+
+    const filter =
+      tagsArray.length > 0 ? { product: { hasSome: tagsArray } } : {};
+
     const coffeeShops = await this.prisma.coffeeShop.findMany({
+      where: filter,
       select: {
         id: true,
         name: true,
