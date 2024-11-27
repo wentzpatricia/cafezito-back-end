@@ -43,6 +43,8 @@ export class CoffeeShopService {
         rating: true,
         urlImage: true,
         product: true,
+        latitude:true,
+        longitude: true,
       },
     });
 
