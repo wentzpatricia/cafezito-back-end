@@ -9,11 +9,11 @@ datasource db {
 }
 
 model User {
-  id       String   @id @default(uuid())
-  email    String   @unique
+  id       String        @id @default(uuid())
+  email    String        @unique
   password String
   Rating   Rating[]
-  Vouchers VoucherPromotional[]
+  vouchers UserVoucher[]
 }
 
 model CoffeeShop {
@@ -43,20 +43,29 @@ model Rating {
 }
 
 model VoucherPromotional {
-  id               String      @id @default(uuid())
-  voucher          String     
-  redeemed         Boolean     @default(false)
-  availableQuantity Int        
-  validFrom        DateTime?   
-  validUntil       DateTime?  
-  redeemedAt       DateTime?  
-  redemptionCode   String?   
-  coffeeShopId     String
-  coffeeShop       CoffeeShop  @relation(fields: [coffeeShopId], references: [id])
-  userId           String? 
-  user             User?      @relation(fields: [userId], references: [id])
+  id                String        @id @default(uuid())
+  voucher           String
+  redeemed          Boolean       @default(false)
+  availableQuantity Int
+  validFrom         DateTime?
+  validUntil        DateTime?
+  redeemedAt        DateTime?
+  redemptionCode    String?
+  qrCodeUrl         String?
+  coffeeShopId      String
+  coffeeShop        CoffeeShop    @relation(fields: [coffeeShopId], references: [id])
+  users             UserVoucher[] 
+}
 
-  @@unique([voucher, userId])
+model UserVoucher {
+  id         String             @id @default(uuid())
+  userId     String
+  voucherId  String
+  redeemedAt DateTime           @default(now())
+  user       User               @relation(fields: [userId], references: [id])
+  voucher    VoucherPromotional @relation(fields: [voucherId], references: [id])
+
+  @@unique([userId, voucherId])
 }
 
 model Environment {
@@ -66,7 +75,7 @@ model Environment {
   openingHours String
   coffeTypes   CoffeTypes[]
   urlImages    String[]
-  coffeeShopId String @unique 
+  coffeeShopId String         @unique
   coffeeShop   CoffeeShop     @relation(fields: [coffeeShopId], references: [id])
 }
 
