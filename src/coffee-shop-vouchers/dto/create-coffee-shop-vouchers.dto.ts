@@ -9,6 +9,11 @@ export class CreateCoffeeShopVouchersDto {
 
   @ApiProperty()
   @IsNotEmpty()
+  @IsString()
+  voucherDescription: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
   @IsInt()
   availableQuantity: number;
 

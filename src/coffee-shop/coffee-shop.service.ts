@@ -14,7 +14,7 @@ export class CoffeeShopService {
   }) {
     const { latitude, longitude, name, address, cost, urlImage, product } =
       createCoffeeShopDto;
-
+  
     return await this.prisma.coffeeShop.create({
       data: {
         latitude,
@@ -102,7 +102,6 @@ export class CoffeeShopService {
             redeemedAt: true,
             redemptionCode: true,
             coffeeShopId: true,
-            userId: true,
           },
         },
       },
