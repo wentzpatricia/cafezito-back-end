@@ -45,6 +45,7 @@ model Rating {
 model VoucherPromotional {
   id                String        @id @default(uuid())
   voucher           String
+  voucherDescription String
   redeemed          Boolean       @default(false)
   availableQuantity Int
   validFrom         DateTime?

@@ -10,10 +10,10 @@ export class CoffeeShopEnvironmentService {
     createEnvironmentDto: CreateCoffeeShopEnvironmentDto,
     coffeeShopId: string,
   ) {
-    const { description, urlImages, openingHours, coffeTypes } =
+    const { description, urlImages, openingHours, coffeTypes, socialMedias } =
       createEnvironmentDto;
-
-    return this.prisma.environment.create({
+  
+    const environment = await this.prisma.environment.create({
       data: {
         description,
         urlImages,
@@ -22,8 +22,24 @@ export class CoffeeShopEnvironmentService {
         coffeeShopId,
       },
     });
-  }
 
+    if (socialMedias && socialMedias.length > 0) {
+      const socialMediaPromises = socialMedias.map((socialMedia) =>
+        this.prisma.socialMedias.create({
+          data: {
+            name: socialMedia.name,
+            url: socialMedia.url,
+            coffeeShopId,
+            environmentId: environment.id,
+          },
+        }),
+      );
+      await Promise.all(socialMediaPromises);
+    }
+  
+    return environment;
+  }
+  
   async updateEnvironment(
     id: string,
     updateEnvironmentDto: any,
