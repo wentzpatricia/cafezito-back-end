@@ -80,6 +80,7 @@ export class CoffeeShopVoucherService {
       where: { id: voucherId },
       data: {
         availableQuantity: voucher.availableQuantity - 1,
+        redeemedAt: new Date(),
       },
     });
   }
