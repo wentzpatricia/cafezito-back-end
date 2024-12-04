@@ -63,8 +63,10 @@ export class CoffeeShopVoucherController {
   }
 
   @Get()
-  async listVouchers() {
-    return this.voucherService.listVouchers();
+  async listVouchers(@Req() request: Request) {
+    const user = request.user as JwtPayload;
+    const userId = user.id;
+    return this.voucherService.listVouchers(userId);
   }
 
   @Post(':id/redeem')

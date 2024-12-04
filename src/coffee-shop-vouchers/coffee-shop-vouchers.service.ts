@@ -80,7 +80,6 @@ export class CoffeeShopVoucherService {
       where: { id: voucherId },
       data: {
         availableQuantity: voucher.availableQuantity - 1,
-        redeemedAt: new Date(),
       },
     });
   }
@@ -98,13 +97,21 @@ export class CoffeeShopVoucherService {
     return this.prisma.voucherPromotional.delete({ where: { id } });
   }
 
-  async listVouchers() {
+  async listVouchers(userId: string) {
     return this.prisma.voucherPromotional.findMany({
       include: {
         coffeeShop: {
           select: {
             name: true,
             address: true,
+          },
+        },
+        users: { 
+          where: { userId },
+          select: {
+            userId: true,
+            redeemedAt: true,
+            voucherId: true
           },
         },
       },
